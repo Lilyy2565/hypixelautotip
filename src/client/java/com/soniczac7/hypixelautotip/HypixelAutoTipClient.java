@@ -26,9 +26,11 @@ public class HypixelAutoTipClient implements ClientModInitializer {
     public static boolean commandExecutionEnabled = false;
     private static boolean isOnHypixel = false;
     private static boolean unknownServer = false;
+    private static boolean doDebug = false;
     
-    // Our key binding that will toggle the auto-command execution.
+    // Keybindings
     private KeyBinding toggleKeyBinding;
+    private KeyBinding debugToggleKeyBinding;
 
     // Define an identifier for your custom HUD layer.
     private static final Identifier DEBUG_LAYER = Identifier.of("hypixelautotip", "debug");
@@ -37,10 +39,17 @@ public class HypixelAutoTipClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
 		
-        // Register the key binding.
+        // Register the mod toggle key binding.
         toggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "Toggle AutoTip", // Translation key (set up in language files for display)
             GLFW.GLFW_KEY_KP_1,             // Default key: KP_1 (Numpad 1)
+            "Hypixel AutoTip"    // Category for grouping related mod keybinds in the controls menu
+        ));
+
+        // Register the debug toggle key binding.
+        debugToggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "Toggle Debug", // Translation key (set up in language files for display)
+            GLFW.GLFW_KEY_F4,             // Default key: F4
             "Hypixel AutoTip"    // Category for grouping related mod keybinds in the controls menu
         ));
 
@@ -52,8 +61,10 @@ public class HypixelAutoTipClient implements ClientModInitializer {
 
                 if (serverAddress.contains("hypixel.net")) {
                     isOnHypixel = true;
+                    unknownServer = false;
                 } else {
                     isOnHypixel = false;
+                    unknownServer = false;
                 }
             } else {
                 isOnHypixel = false;
@@ -91,6 +102,14 @@ public class HypixelAutoTipClient implements ClientModInitializer {
                 }*/
             }
             
+            while (debugToggleKeyBinding.wasPressed()) {
+                doDebug = !doDebug;
+                MinecraftClient.getInstance().inGameHud.setOverlayMessage(
+                    Text.literal("AutoTip Debug toggled: " + (doDebug ? "Enabled" : "Disabled")),
+                    true // 'true' makes it display in the action bar
+                );
+            }
+
             // If the toggle is off, the player hasn't joined the world, the player isnt on hypixel or is in an unknown server skip the auto-command logic.
             if (!commandExecutionEnabled || client.player == null || !isOnHypixel || unknownServer) {
                 return;
@@ -112,15 +131,15 @@ public class HypixelAutoTipClient implements ClientModInitializer {
     private static void renderHud(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         MinecraftClient client = MinecraftClient.getInstance();
         
-        if(unknownServer){
+        if(unknownServer && doDebug){
             drawContext.drawText(client.textRenderer, "AutoTip: Could not fetch server address!", 10, 10, 0xff0000, false);
             return;
         }
-        else if(!isOnHypixel){
+        else if(!isOnHypixel && doDebug){
             drawContext.drawText(client.textRenderer, "AutoTip: Not on Hypixel!", 10, 10, 0xff0000, false);
             return;
         }
-        else{
+        else if (doDebug){
             String debugText = String.format("AutoTip Debug: %s, Tick: %d/%d",
             commandExecutionEnabled ? "Enabled" : "Disabled",
             tickCounter, INTERVAL_TICKS);
