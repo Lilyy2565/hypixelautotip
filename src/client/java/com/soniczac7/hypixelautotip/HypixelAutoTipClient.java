@@ -3,25 +3,29 @@ package com.soniczac7.hypixelautotip;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.network.ServerInfo;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import net.minecraft.util.Identifier;
 
 
 public class HypixelAutoTipClient implements ClientModInitializer {
-	// 12000 ticks = 10 minutes
+	
     public static final int INTERVAL_TICKS = 20000;
     //private static final int INTERVAL_TICKS = 20; // 1 second
     public static int tickCounter = INTERVAL_TICKS; // Set to interval to immediatly send command on join
     
     // Toggle flag for whether the auto-command execution is enabled.
     public static boolean commandExecutionEnabled = false;
+    private static boolean isOnHypixel = false;
+    private static boolean unknownServer = false;
     
     // Our key binding that will toggle the auto-command execution.
     private KeyBinding toggleKeyBinding;
@@ -32,12 +36,30 @@ public class HypixelAutoTipClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
-		// Register the key binding. In this example, we use the P key.
+		
+        // Register the key binding.
         toggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "Toggle AutoTip", // Translation key (set up in language files for display)
-            GLFW.GLFW_KEY_KP_1,             // Default key: P
+            GLFW.GLFW_KEY_KP_1,             // Default key: KP_1 (Numpad 1)
             "Hypixel AutoTip"    // Category for grouping related mod keybinds in the controls menu
         ));
+
+        // Listen for when the player joins a server.
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+            ServerInfo serverInfo = client.getCurrentServerEntry();
+            if (serverInfo != null) {
+                String serverAddress = serverInfo.address;  // The server IP/info
+
+                if (serverAddress.contains("hypixel.net")) {
+                    isOnHypixel = true;
+                } else {
+                    isOnHypixel = false;
+                }
+            } else {
+                isOnHypixel = false;
+                unknownServer = true;
+            }
+        });
         
         // Register a HUD layer before the chat layer.
         HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
@@ -69,15 +91,15 @@ public class HypixelAutoTipClient implements ClientModInitializer {
                 }*/
             }
             
-            // If the toggle is off or the player hasn't joined the world, skip the auto-command logic.
-            if (!commandExecutionEnabled || client.player == null) {
+            // If the toggle is off, the player hasn't joined the world, the player isnt on hypixel or is in an unknown server skip the auto-command logic.
+            if (!commandExecutionEnabled || client.player == null || !isOnHypixel || unknownServer) {
                 return;
             }
             
             // Increment the tick counter.
             tickCounter++;
             
-            // If enough ticks (20 minutes) have passed, send the command.
+            // If enough ticks have passed, send the command.
             if (tickCounter >= INTERVAL_TICKS) {
                 tickCounter = 0;
                 // This sends the command as if the player typed it.
@@ -89,11 +111,22 @@ public class HypixelAutoTipClient implements ClientModInitializer {
     // This method will be called to render your debug info.
     private static void renderHud(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         MinecraftClient client = MinecraftClient.getInstance();
-        String debugText = String.format("AutoTip: %s, Tick: %d",
-                commandExecutionEnabled ? "Enabled" : "Disabled",
-                tickCounter);
+        
+        if(unknownServer){
+            drawContext.drawText(client.textRenderer, "AutoTip: Could not fetch server address!", 10, 10, 0xff0000, false);
+            return;
+        }
+        else if(!isOnHypixel){
+            drawContext.drawText(client.textRenderer, "AutoTip: Not on Hypixel!", 10, 10, 0xff0000, false);
+            return;
+        }
+        else{
+            String debugText = String.format("AutoTip Debug: %s, Tick: %d/%d",
+            commandExecutionEnabled ? "Enabled" : "Disabled",
+            tickCounter, INTERVAL_TICKS);
 
-        // Draw the debug text at coordinates (10, 10).
-        drawContext.drawText(client.textRenderer, debugText, 10, 10, 0xffffff, false);
+            // Draw the debug text at coordinates (10, 10).
+            drawContext.drawText(client.textRenderer, debugText, 10, 10, 0xffffff, false);
+        }
     }
 }
