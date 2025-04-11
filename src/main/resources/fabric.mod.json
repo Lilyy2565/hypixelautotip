@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "hypixelautotip",
+	"version": "${version}",
+	"name": "Hypixel AutoTip",
+	"description": "Automatically tips players every 10 minutes in Hypixel.",
+	"authors": [
+		"Soniczac7"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/project/hypixelautotip",
+		"sources": "https://github.com/Soniczac7/hypixelautotip"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/hypixelautotip/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"com.soniczac7.hypixelautotip.HypixelAutoTipClient"
+		]
+	},
+	"mixins": [
+		"hypixelautotip.mixins.json",
+		{
+			"config": "hypixelautotip.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.12",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

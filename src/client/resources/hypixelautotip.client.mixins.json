@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "com.soniczac7.hypixelautotip.mixin.client",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
