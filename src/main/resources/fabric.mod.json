@@ -3,7 +3,7 @@
 	"id": "hypixelautotip",
 	"version": "${version}",
 	"name": "Hypixel AutoTip",
-	"description": "Automatically tips players every 10 minutes in Hypixel.",
+	"description": "Automatically tips players around every 15 minutes in Hypixel.",
 	"authors": [
 		"Soniczac7"
 	],
