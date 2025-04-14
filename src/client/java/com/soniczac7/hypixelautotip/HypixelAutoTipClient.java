@@ -18,12 +18,12 @@ import net.minecraft.util.Identifier;
 
 public class HypixelAutoTipClient implements ClientModInitializer {
 	
-    public static final int INTERVAL_TICKS = 20000;
+    public static int INTERVAL_TICKS = 20000;
     //private static final int INTERVAL_TICKS = 20; // 1 second
     public static int tickCounter = INTERVAL_TICKS; // Set to interval to immediatly send command on join
     
     // Toggle flag for whether the auto-command execution is enabled.
-    public static boolean commandExecutionEnabled = false;
+    public static boolean commandExecutionEnabled = true;
     private static boolean isOnHypixel = false;
     private static boolean unknownServer = false;
     private static boolean doDebug = false;
@@ -52,6 +52,18 @@ public class HypixelAutoTipClient implements ClientModInitializer {
             GLFW.GLFW_KEY_F4,             // Default key: F4
             "Hypixel AutoTip"    // Category for grouping related mod keybinds in the controls menu
         ));
+
+        // DEBUG Keybinds
+        /*KeyBinding configKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "Open Hypixel AutoTip Config", GLFW.GLFW_KEY_F5, "Hypixel AutoTip"
+        ));
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            while (configKeyBinding.wasPressed()) {
+                client.setScreen(HypixelAutoTipConfigScreen.createConfigScreen(client.currentScreen));
+            }
+        });*/
+        // END DEBUG Keybinds
 
         // Listen for when the player joins a server.
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {

@@ -15,6 +15,9 @@
 	"icon": "assets/hypixelautotip/icon.png",
 	"environment": "client",
 	"entrypoints": {
+		"modmenu": [
+    		"com.soniczac7.hypixelautotip.HypixelAutoTipConfigScreen"
+  		],
 		"client": [
 			"com.soniczac7.hypixelautotip.HypixelAutoTipClient"
 		]
@@ -33,6 +36,7 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
+		"cloth-config": "*",
+		"modmenu": "*"
 	}
 }
