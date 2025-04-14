@@ -9,7 +9,8 @@
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/hypixelautotip",
-		"sources": "https://github.com/Soniczac7/hypixelautotip"
+		"sources": "https://github.com/Soniczac7/hypixelautotip",
+		"issues": "https://github.com/soniczac7/hypixelautotip/issues"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/hypixelautotip/icon.png",
