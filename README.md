@@ -6,6 +6,8 @@ The only reason I made this mod is that I couldn't find any mods on fabric 1.21 
 
 This is my first Minecraft mod so it might not be perfect but it works well in my testing. When you first join Hypixel just press `NumPad1` (rebindable in Minecraft's keybinds settings) and it will start autotipping players. You can then press `NumPad1` again and it will stop autotipping.
 
+Starting from v1.1.0, with Cloth Config API and ModMenu installed a config screen can be accessed to toggle the mod and the interval which the mod will tip all players.
+
 ## Installation
 Avaliable at modrinth (after review) at: [https://modrinth.com/mod/hypixelautotip](https://modrinth.com/mod/hypixelautotip)
 
