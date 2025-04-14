@@ -72,9 +72,9 @@ public class HypixelAutoTipClient implements ClientModInitializer {
             }
         });
         
-        // Register a HUD layer before the chat layer.
-        HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
-            renderHud(matrixStack, MinecraftClient.getInstance().getRenderTickCounter());
+        // Register a HUD render callback.
+        HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
+            renderHud(drawContext);
         });
 
         // Register a client tick event.
@@ -128,7 +128,7 @@ public class HypixelAutoTipClient implements ClientModInitializer {
 	}
 
     // This method will be called to render your debug info.
-    private static void renderHud(DrawContext drawContext, RenderTickCounter renderTickCounter) {
+    private static void renderHud(DrawContext drawContext) {
         MinecraftClient client = MinecraftClient.getInstance();
         
         if(unknownServer && doDebug){
