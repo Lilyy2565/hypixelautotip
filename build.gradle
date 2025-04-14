@@ -11,11 +11,12 @@ base {
 }
 
 repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+    maven { url "https://maven.fabricmc.net" }
+    mavenCentral()
+    // This repository hosts Cloth Config API:
+    maven { url "https://maven.shedaniel.me/" }
+    // This repository hosts Mod Menu:
+    maven { url "https://maven.terraformersmc.com/releases" }
 }
 
 loom {
@@ -36,10 +37,14 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	// Fabric API. This is technically optional, but you probably want it anyway.
+	// Fabric API
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
+	// Configs
+	modImplementation "me.shedaniel.cloth:cloth-config-fabric:18.0.145" // (version may vary)
+    modImplementation "com.terraformersmc:modmenu:13.0.3"               // (version may vary)
 }
+
 
 processResources {
 	inputs.property "version", project.version
