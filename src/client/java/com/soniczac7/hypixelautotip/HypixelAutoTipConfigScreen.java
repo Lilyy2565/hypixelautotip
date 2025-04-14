@@ -39,13 +39,16 @@ public class HypixelAutoTipConfigScreen implements ModMenuApi {
                         HypixelAutoTipClient.INTERVAL_TICKS)
                     .setDefaultValue(20000)
                     .setTooltip(Text.literal("Interval in ticks between auto-tips."))
-                    .setSaveConsumer(newValue -> HypixelAutoTipClient.INTERVAL_TICKS = newValue)
+                    .setSaveConsumer(newValue -> {
+                        HypixelAutoTipClient.INTERVAL_TICKS = newValue;
+                        ConfigManager.config.intervalTicks = newValue;
+                    })
                     .build()
             );
 
             // Additional entries can be added here.
             builder.setSavingRunnable(() -> {
-                // Persist configuration if needed.
+                ConfigManager.saveConfig();
             });
             return builder.build();
         };
