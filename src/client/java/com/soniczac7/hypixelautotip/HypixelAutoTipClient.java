@@ -39,6 +39,10 @@ public class HypixelAutoTipClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
 		
+        // Load the configuration.
+        ConfigManager.loadConfig();
+        INTERVAL_TICKS = ConfigManager.config.intervalTicks;
+
         // Register the mod toggle key binding.
         toggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "Toggle AutoTip", // Translation key (set up in language files for display)
