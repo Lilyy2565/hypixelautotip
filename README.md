@@ -9,7 +9,7 @@ This is my first Minecraft mod so it might not be perfect but it works well in m
 Starting from v1.1.0, with Cloth Config API and ModMenu installed a config screen can be accessed to toggle the mod and the interval which the mod will tip all players.
 
 ## Installation
-Avaliable at modrinth (after review) at: [https://modrinth.com/mod/hypixelautotip](https://modrinth.com/mod/hypixelautotip)
+Avaliable at modrinth at: [https://modrinth.com/mod/hypixelautotip](https://modrinth.com/mod/hypixelautotip)
 
 ## Features
 - Auto tipping all every 15 minutes
