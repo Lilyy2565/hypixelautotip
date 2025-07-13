@@ -38,11 +38,11 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:+"
 	
 	// Configs
-	modImplementation "me.shedaniel.cloth:cloth-config-fabric:18.0.145" // (version may vary)
-    modImplementation "com.terraformersmc:modmenu:13.0.3"               // (version may vary)
+	modImplementation "me.shedaniel.cloth:cloth-config-fabric:18.0.145"
+    modImplementation "com.terraformersmc:modmenu:13.0.3"
 }
 
 
