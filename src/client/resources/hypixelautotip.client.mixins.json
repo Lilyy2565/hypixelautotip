@@ -3,7 +3,7 @@
 	"package": "com.soniczac7.hypixelautotip.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		
+		"AutoTipDebugHudMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

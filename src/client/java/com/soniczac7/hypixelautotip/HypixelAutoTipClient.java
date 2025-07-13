@@ -4,12 +4,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
@@ -88,10 +84,8 @@ public class HypixelAutoTipClient implements ClientModInitializer {
             }
         });
         
-        // Register a HUD render callback.
-        HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
-            renderHud(drawContext);
-        });
+        // Note: Debug info is now displayed in F3 menu via AutoTipDebugHudMixin
+        // Press F3 to see AutoTip status when debug mode is enabled (F4 key)
 
         // Register a client tick event.
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -120,10 +114,8 @@ public class HypixelAutoTipClient implements ClientModInitializer {
             
             while (debugToggleKeyBinding.wasPressed()) {
                 doDebug = !doDebug;
-                MinecraftClient.getInstance().inGameHud.setOverlayMessage(
-                    Text.literal("AutoTip Debug toggled: " + (doDebug ? "Enabled" : "Disabled")),
-                    true // 'true' makes it display in the action bar
-                );
+                System.out.println("AutoTip: Debug toggled: " + (doDebug ? "Enabled" : "Disabled"));
+                System.out.println("AutoTip: Press F3 to see debug info in the debug screen");
             }
 
             // If the toggle is off, the player hasn't joined the world, the player isnt on hypixel or is in an unknown server skip the auto-command logic.
@@ -143,25 +135,38 @@ public class HypixelAutoTipClient implements ClientModInitializer {
         });
 	}
 
-    // This method will be called to render your debug info.
-    private static void renderHud(DrawContext drawContext) {
-        MinecraftClient client = MinecraftClient.getInstance();
+    // Static method to get debug info for F3 screen (called by mixin)
+    public static java.util.List<String> getDebugInfo() {
+        java.util.List<String> info = new java.util.ArrayList<>();
         
-        if(unknownServer && doDebug){
-            drawContext.drawText(client.textRenderer, "AutoTip: Could not fetch server address!", 10, 10, 0xff0000, false);
-            return;
+        // Only show debug info when debug mode is enabled
+        if (!doDebug) {
+            return info; // Return empty list if debug is disabled
         }
-        else if(!isOnHypixel && doDebug){
-            drawContext.drawText(client.textRenderer, "AutoTip: Not on Hypixel!", 10, 10, 0xff0000, false);
-            return;
+        
+        info.add("");
+        info.add("§6[Hypixel AutoTip]");
+        
+        // Server status
+        if (unknownServer) {
+            info.add("Server: §cUnknown");
+        } else if (isOnHypixel) {
+            info.add("Server: §aHypixel");
+        } else {
+            info.add("Server: §cNot Hypixel");
         }
-        else if (doDebug){
-            String debugText = String.format("AutoTip Debug: %s, Tick: %d/%d",
-            commandExecutionEnabled ? "Enabled" : "Disabled",
-            tickCounter, INTERVAL_TICKS);
-
-            // Draw the debug text at coordinates (10, 10).
-            drawContext.drawText(client.textRenderer, debugText, 10, 10, 0xffffff, false);
+        
+        // AutoTip status
+        info.add("AutoTip: " + (commandExecutionEnabled ? "§aEnabled" : "§cDisabled"));
+        
+        // Tick counter (only show when on Hypixel and enabled)
+        if (isOnHypixel && commandExecutionEnabled) {
+            int secondsRemaining = (INTERVAL_TICKS - tickCounter) / 20;
+            int minutesRemaining = secondsRemaining / 60;
+            int secsRemaining = secondsRemaining % 60;
+            info.add(String.format("Next tip: §e%dm %ds", minutesRemaining, secsRemaining));
         }
+        
+        return info;
     }
 }
