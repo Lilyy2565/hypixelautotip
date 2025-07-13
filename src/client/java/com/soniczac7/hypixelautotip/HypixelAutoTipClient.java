@@ -22,7 +22,6 @@ public class HypixelAutoTipClient implements ClientModInitializer {
     public static boolean commandExecutionEnabled = true;
     private static boolean isOnHypixel = false;
     private static boolean unknownServer = false;
-    private static boolean doDebug = false;
     
     // Keybindings
     private KeyBinding toggleKeyBinding;
@@ -43,13 +42,6 @@ public class HypixelAutoTipClient implements ClientModInitializer {
         toggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "Toggle AutoTip", // Translation key (set up in language files for display)
             GLFW.GLFW_KEY_KP_1,             // Default key: KP_1 (Numpad 1)
-            "Hypixel AutoTip"    // Category for grouping related mod keybinds in the controls menu
-        ));
-
-        // Register the debug toggle key binding.
-        debugToggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-            "Toggle Debug", // Translation key (set up in language files for display)
-            GLFW.GLFW_KEY_F4,             // Default key: F4
             "Hypixel AutoTip"    // Category for grouping related mod keybinds in the controls menu
         ));
 
@@ -111,12 +103,6 @@ public class HypixelAutoTipClient implements ClientModInitializer {
                     );
                 }*/
             }
-            
-            while (debugToggleKeyBinding.wasPressed()) {
-                doDebug = !doDebug;
-                System.out.println("AutoTip: Debug toggled: " + (doDebug ? "Enabled" : "Disabled"));
-                System.out.println("AutoTip: Press F3 to see debug info in the debug screen");
-            }
 
             // If the toggle is off, the player hasn't joined the world, the player isnt on hypixel or is in an unknown server skip the auto-command logic.
             if (!commandExecutionEnabled || client.player == null || !isOnHypixel || unknownServer) {
@@ -138,11 +124,6 @@ public class HypixelAutoTipClient implements ClientModInitializer {
     // Static method to get debug info for F3 screen (called by mixin)
     public static java.util.List<String> getDebugInfo() {
         java.util.List<String> info = new java.util.ArrayList<>();
-        
-        // Only show debug info when debug mode is enabled
-        if (!doDebug) {
-            return info; // Return empty list if debug is disabled
-        }
         
         info.add("");
         info.add("§6[Hypixel AutoTip]");
