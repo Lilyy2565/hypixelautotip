@@ -5,22 +5,22 @@
 	"name": "Hypixel AutoTip",
 	"description": "Automatically tips players around every 15 minutes in Hypixel.",
 	"authors": [
-		"Soniczac7"
+		"Lilyy2565"
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/hypixelautotip",
-		"sources": "https://github.com/Soniczac7/hypixelautotip",
-		"issues": "https://github.com/soniczac7/hypixelautotip/issues"
+		"sources": "https://github.com/Lilyy2565/hypixelautotip",
+		"issues": "https://github.com/Lilyy2565/hypixelautotip/issues"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/hypixelautotip/icon.png",
 	"environment": "client",
 	"entrypoints": {
 		"modmenu": [
-    		"com.soniczac7.hypixelautotip.HypixelAutoTipConfigScreen"
+    		"com.lilyy2565.hypixelautotip.HypixelAutoTipConfigScreen"
   		],
 		"client": [
-			"com.soniczac7.hypixelautotip.HypixelAutoTipClient"
+			"com.lilyy2565.hypixelautotip.HypixelAutoTipClient"
 		]
 	},
 	"mixins": [

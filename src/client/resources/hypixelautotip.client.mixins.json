@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "com.soniczac7.hypixelautotip.mixin.client",
+	"package": "com.lilyy2565.hypixelautotip.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"AutoTipDebugHudMixin"

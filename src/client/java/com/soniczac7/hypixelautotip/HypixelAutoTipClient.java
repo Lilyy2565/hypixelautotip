@@ -1,4 +1,4 @@
-package com.soniczac7.hypixelautotip;
+package com.lilyy2565.hypixelautotip;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;

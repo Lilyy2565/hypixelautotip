@@ -1,4 +1,4 @@
-package com.soniczac7.hypixelautotip;
+package com.lilyy2565.hypixelautotip;
 
 import net.fabricmc.api.ModInitializer;
 

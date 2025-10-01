@@ -1,6 +1,6 @@
-package com.soniczac7.hypixelautotip.mixin.client;
+package com.lilyy2565.hypixelautotip.mixin.client;
 
-import com.soniczac7.hypixelautotip.HypixelAutoTipClient;
+import com.lilyy2565.hypixelautotip.HypixelAutoTipClient;
 import net.minecraft.client.gui.hud.DebugHud;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,4 +1,4 @@
-package com.soniczac7.hypixelautotip;
+package com.lilyy2565.hypixelautotip;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
