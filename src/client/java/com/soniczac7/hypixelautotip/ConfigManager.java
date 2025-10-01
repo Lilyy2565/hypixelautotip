@@ -1,4 +1,4 @@
-package com.soniczac7.hypixelautotip;
+package com.lilyy2565.hypixelautotip;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

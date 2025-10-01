@@ -1,4 +1,4 @@
-package com.soniczac7.hypixelautotip.mixin;
+package com.lilyy2565.hypixelautotip.mixin;
 
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
