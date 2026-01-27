@@ -4,18 +4,19 @@ import com.lilyy2565.hypixelautotip.HypixelAutoTipClient;
 import net.minecraft.client.gui.hud.DebugHud;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.List;
 
 @Mixin(DebugHud.class)
 public class AutoTipDebugHudMixin {
 
-    @Inject(method = "getLeftText", at = @At("RETURN"))
-    private void addAutoTipInfo(CallbackInfoReturnable<List<String>> cir) {
-        List<String> debugInfo = cir.getReturnValue();
-        List<String> modInfo = HypixelAutoTipClient.getDebugInfo();
-        debugInfo.addAll(modInfo);
+    @ModifyVariable(method = "method_51745", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+    private List<String> addAutoTipInfo(List<String> debugInfo, net.minecraft.client.gui.DrawContext context, List<String> text, boolean left) {
+        if (left) {
+            List<String> modInfo = HypixelAutoTipClient.getDebugInfo();
+            debugInfo.addAll(modInfo);
+        }
+        return debugInfo;
     }
 }

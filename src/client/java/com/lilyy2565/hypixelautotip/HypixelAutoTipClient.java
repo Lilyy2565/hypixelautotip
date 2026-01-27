@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ServerInfo;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import net.minecraft.util.Identifier;
@@ -41,8 +42,9 @@ public class HypixelAutoTipClient implements ClientModInitializer {
         // Register the mod toggle key binding.
         toggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
             "Toggle AutoTip", // Translation key (set up in language files for display)
+            InputUtil.Type.KEYSYM,
             GLFW.GLFW_KEY_KP_1,             // Default key: KP_1 (Numpad 1)
-            "Hypixel AutoTip"    // Category for grouping related mod keybinds in the controls menu
+            KeyBinding.Category.MISC    // Category for grouping related mod keybinds in the controls menu
         ));
 
         // DEBUG Keybinds
