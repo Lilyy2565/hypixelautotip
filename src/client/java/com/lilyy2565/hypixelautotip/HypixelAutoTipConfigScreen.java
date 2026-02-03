@@ -33,6 +33,16 @@ public class HypixelAutoTipConfigScreen implements ModMenuApi {
                     .build()
             );
 
+            // Persist AutoTip toggle on restart
+            general.addEntry(
+                entryBuilder.startBooleanToggle(Text.literal("Persist Enable AutoTip on restart"),
+                        ConfigManager.config.persistAutoTipEnabled)
+                    .setDefaultValue(true)
+                    .setTooltip(Text.literal("When enabled, the Enable AutoTip toggle is restored on restart."))
+                    .setSaveConsumer(newValue -> ConfigManager.config.persistAutoTipEnabled = newValue)
+                    .build()
+            );
+
             // Command execution interval config
             general.addEntry(
                 entryBuilder.startIntField(Text.literal("Interval (in ticks)"),
@@ -48,6 +58,7 @@ public class HypixelAutoTipConfigScreen implements ModMenuApi {
 
             // Additional entries can be added here.
             builder.setSavingRunnable(() -> {
+                ConfigManager.config.autoTipEnabled = HypixelAutoTipClient.commandExecutionEnabled;
                 ConfigManager.saveConfig();
             });
             return builder.build();

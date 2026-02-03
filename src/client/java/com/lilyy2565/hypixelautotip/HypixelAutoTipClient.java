@@ -38,6 +38,11 @@ public class HypixelAutoTipClient implements ClientModInitializer {
         // Load the configuration.
         ConfigManager.loadConfig();
         INTERVAL_TICKS = ConfigManager.config.intervalTicks;
+        if (ConfigManager.config.persistAutoTipEnabled) {
+            commandExecutionEnabled = ConfigManager.config.autoTipEnabled;
+        } else {
+            commandExecutionEnabled = true;
+        }
 
         // Register the mod toggle key binding.
         toggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -90,6 +95,11 @@ public class HypixelAutoTipClient implements ClientModInitializer {
                     Text.literal("AutoTip toggled: " + (commandExecutionEnabled ? "Enabled" : "Disabled")),
                     true // 'true' makes it display in the action bar
                 );
+
+                if (ConfigManager.config.persistAutoTipEnabled) {
+                    ConfigManager.config.autoTipEnabled = commandExecutionEnabled;
+                    ConfigManager.saveConfig();
+                }
 
                 // Reset counter when enabled
                 if(commandExecutionEnabled){
