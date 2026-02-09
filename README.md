@@ -14,5 +14,5 @@ Avaliable at modrinth at: [https://modrinth.com/mod/hypixelautotip](https://modr
 ## Features
 - Auto tipping all every 15 minutes
 - Disables when not on Hypixel
-- Toggleable debug text (F4 by default)
+- F3 debug text which is compatable with F3+F6
 - Can be disabled via keybind (NumPad 1 by default)
