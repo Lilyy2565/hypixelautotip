@@ -3,7 +3,8 @@
 	"package": "com.lilyy2565.hypixelautotip.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"AutoTipDebugHudMixin"
+		"DebugScreenEntriesMixin",
+		"DebugHudEntriesVisibilityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

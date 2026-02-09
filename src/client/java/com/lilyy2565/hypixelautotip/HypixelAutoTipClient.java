@@ -137,7 +137,7 @@ public class HypixelAutoTipClient implements ClientModInitializer {
     public static java.util.List<String> getDebugInfo() {
         java.util.List<String> info = new java.util.ArrayList<>();
         
-        info.add("");
+        // Add header
         info.add("§6[Hypixel AutoTip]");
         
         // Server status
