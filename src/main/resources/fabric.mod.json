@@ -36,6 +36,9 @@
 		"java": ">=21",
 		"fabric-api": "*"
 	},
+	"breaks": {
+		"sneaksprint-toggle": "<1.2.0"
+	},
 	"suggests": {
 		"cloth-config": "*",
 		"modmenu": "*"
