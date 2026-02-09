@@ -1,0 +1,41 @@
+name: Bug Report
+description: Report a bug in Hypixel AutoTip.
+labels: [bug]
+body:
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: Give a clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Give the steps to reproduce the behaviour.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behaviour
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Hypixel AutoTip Version
+      description: Which version of Hypixel AutoTip are you using?
+      placeholder: '1.3.0'
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Minecraft Version
+      description: Which version of Minecraft are you using?
+      placeholder: '1.21.11'
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Comments
+      description: Additional information, comments or screenshots about the bug report.
