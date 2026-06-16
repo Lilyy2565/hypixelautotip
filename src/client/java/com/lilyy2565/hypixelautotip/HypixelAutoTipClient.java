@@ -2,15 +2,13 @@ package com.lilyy2565.hypixelautotip;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ServerInfo;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
-import org.lwjgl.glfw.GLFW;
-import net.minecraft.util.Identifier;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.network.chat.Component;
 
 
 public class HypixelAutoTipClient implements ClientModInitializer {
@@ -25,11 +23,7 @@ public class HypixelAutoTipClient implements ClientModInitializer {
     private static boolean unknownServer = false;
     
     // Keybindings
-    private KeyBinding toggleKeyBinding;
-    private KeyBinding debugToggleKeyBinding;
-
-    // Define an identifier for your custom HUD layer.
-    private static final Identifier DEBUG_LAYER = Identifier.of("hypixelautotip", "debug");
+    private KeyMapping toggleKeyBinding;
 	
 	@Override
 	public void onInitializeClient() {
@@ -45,11 +39,11 @@ public class HypixelAutoTipClient implements ClientModInitializer {
         }
 
         // Register the mod toggle key binding.
-        toggleKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-            "Toggle AutoTip", // Translation key (set up in language files for display)
-            InputUtil.Type.KEYSYM,
-            GLFW.GLFW_KEY_KP_1,             // Default key: KP_1 (Numpad 1)
-            KeyBinding.Category.MISC    // Category for grouping related mod keybinds in the controls menu
+        toggleKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+            "key.hypixelautotip.toggle",
+            InputConstants.Type.KEYSYM,
+            InputConstants.KEY_NUMPAD1,
+            KeyMapping.Category.MISC
         ));
 
         // DEBUG Keybinds
@@ -66,9 +60,9 @@ public class HypixelAutoTipClient implements ClientModInitializer {
 
         // Listen for when the player joins a server.
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            ServerInfo serverInfo = client.getCurrentServerEntry();
+            ServerData serverInfo = client.getCurrentServer();
             if (serverInfo != null) {
-                String serverAddress = serverInfo.address;  // The server IP/info
+                String serverAddress = serverInfo.ip;
 
                 if (serverAddress.contains("hypixel.net")) {
                     isOnHypixel = true;
@@ -83,16 +77,16 @@ public class HypixelAutoTipClient implements ClientModInitializer {
             }
         });
         
-        // Note: Debug info is now displayed in F3 menu via AutoTipDebugHudMixin
-        // Press F3 to see AutoTip status when debug mode is enabled (F4 key)
+        // Debug status is exposed through Minecraft's debug entry system.
+        // Use F3+F6 to set this entry to Off / Overlay / Always On.
 
         // Register a client tick event.
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             // Check if the toggle key was pressed.
-            while (toggleKeyBinding.wasPressed()) {
+            while (toggleKeyBinding.consumeClick()) {
                 commandExecutionEnabled = !commandExecutionEnabled;
-                MinecraftClient.getInstance().inGameHud.setOverlayMessage(
-                    Text.literal("AutoTip toggled: " + (commandExecutionEnabled ? "Enabled" : "Disabled")),
+                Minecraft.getInstance().gui.setOverlayMessage(
+                    Component.literal("AutoTip toggled: " + (commandExecutionEnabled ? "Enabled" : "Disabled")),
                     true // 'true' makes it display in the action bar
                 );
 
@@ -128,7 +122,7 @@ public class HypixelAutoTipClient implements ClientModInitializer {
             if (tickCounter >= INTERVAL_TICKS) {
                 tickCounter = 0;
                 // This sends the command as if the player typed it.
-                client.player.networkHandler.sendChatCommand("tipall");
+                client.player.connection.sendCommand("tipall");
             }
         });
 	}
