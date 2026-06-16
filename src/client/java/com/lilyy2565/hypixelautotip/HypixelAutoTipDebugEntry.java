@@ -1,24 +1,21 @@
 package com.lilyy2565.hypixelautotip;
 
-import net.minecraft.client.gui.hud.debug.DebugHudEntry;
-import net.minecraft.client.gui.hud.debug.DebugHudLines;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.WorldChunk;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.client.gui.components.debug.DebugScreenDisplayer;
+import net.minecraft.client.gui.components.debug.DebugScreenEntry;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.LevelChunk;
 
-import java.util.List;
+public class HypixelAutoTipDebugEntry implements DebugScreenEntry {
+    public static final Identifier ENTRY_ID = Identifier.fromNamespaceAndPath("hypixelautotip", "autotip_status");
 
-public class HypixelAutoTipDebugEntry implements DebugHudEntry {
-    
     @Override
-    public void render(DebugHudLines lines, @Nullable World world, @Nullable WorldChunk worldChunk, @Nullable WorldChunk worldChunk2) {
-        Identifier sectionId = Identifier.of("hypixelautotip", "debug");
-        
-        // Get debug info from HypixelAutoTipClient (centralized logic)
-        List<String> debugInfo = HypixelAutoTipClient.getDebugInfo();
-        
-        // Add all lines to the debug section
-        lines.addLinesToSection(sectionId, debugInfo);
+    public void display(DebugScreenDisplayer displayer, Level level, LevelChunk chunk, LevelChunk chunk2) {
+        displayer.addToGroup(ENTRY_ID, HypixelAutoTipClient.getDebugInfo());
+    }
+
+    @Override
+    public boolean isAllowed(boolean reducedDebugInfo) {
+        return true;
     }
 }
