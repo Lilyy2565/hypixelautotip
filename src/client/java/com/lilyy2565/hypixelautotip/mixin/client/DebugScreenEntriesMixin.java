@@ -1,11 +1,11 @@
 package com.lilyy2565.hypixelautotip.mixin.client;
 
 import com.lilyy2565.hypixelautotip.HypixelAutoTipDebugEntry;
-import net.minecraft.client.gui.hud.debug.DebugHudEntries;
-import net.minecraft.client.gui.hud.debug.DebugHudEntry;
-import net.minecraft.client.gui.hud.debug.DebugHudEntryVisibility;
-import net.minecraft.client.gui.hud.debug.DebugProfileType;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.components.debug.DebugScreenEntries;
+import net.minecraft.client.gui.components.debug.DebugScreenEntry;
+import net.minecraft.client.gui.components.debug.DebugScreenEntryStatus;
+import net.minecraft.client.gui.components.debug.DebugScreenProfile;
+import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -17,31 +17,31 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.HashMap;
 import java.util.Map;
 
-@Mixin(DebugHudEntries.class)
+@Mixin(DebugScreenEntries.class)
 public abstract class DebugScreenEntriesMixin {
-    
+
     @Shadow
     @Final
     @Mutable
-    private static Map<DebugProfileType, Map<Identifier, DebugHudEntryVisibility>> PROFILES;
-    
+    private static Map<DebugScreenProfile, Map<Identifier, DebugScreenEntryStatus>> PROFILES;
+
     @Shadow
-    public static Identifier register(Identifier id, DebugHudEntry entry) {
-        return null;
+    public static Identifier register(Identifier id, DebugScreenEntry entry) {
+        throw new AssertionError();
     }
-    
-    @Inject(method = "<clinit>", at = @At(value = "RETURN"))
-    private static void registerHypixelAutoTipDebug(CallbackInfo ci) {
-        Identifier entryId = Identifier.of("hypixelautotip", "debug");
+
+    @Inject(method = "<clinit>", at = @At("RETURN"))
+    private static void hypixelautotip$registerDebugEntry(CallbackInfo ci) {
+        Identifier entryId = HypixelAutoTipDebugEntry.ENTRY_ID;
         register(entryId, new HypixelAutoTipDebugEntry());
-        
-        // Set default visibility to "In Overlay" for all profiles
-        Map<DebugProfileType, Map<Identifier, DebugHudEntryVisibility>> updatedProfiles = new HashMap<>();
-        for (Map.Entry<DebugProfileType, Map<Identifier, DebugHudEntryVisibility>> profileEntry : PROFILES.entrySet()) {
-            Map<Identifier, DebugHudEntryVisibility> visibilityMap = new HashMap<>(profileEntry.getValue());
-            visibilityMap.putIfAbsent(entryId, DebugHudEntryVisibility.IN_F3);
-            updatedProfiles.put(profileEntry.getKey(), visibilityMap);
+
+        Map<DebugScreenProfile, Map<Identifier, DebugScreenEntryStatus>> updatedProfiles = new HashMap<>();
+        for (Map.Entry<DebugScreenProfile, Map<Identifier, DebugScreenEntryStatus>> profileEntry : PROFILES.entrySet()) {
+            Map<Identifier, DebugScreenEntryStatus> statusMap = new HashMap<>(profileEntry.getValue());
+            statusMap.putIfAbsent(entryId, DebugScreenEntryStatus.IN_OVERLAY);
+            updatedProfiles.put(profileEntry.getKey(), Map.copyOf(statusMap));
         }
-        PROFILES = updatedProfiles;
+
+        PROFILES = Map.copyOf(updatedProfiles);
     }
 }
