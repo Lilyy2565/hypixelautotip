@@ -2,14 +2,15 @@
 ## What it does
 Automatically tips all players with active boosters on the Hypixel Network around every 15 minutes using /tipall so you dont have to.
 
-The only reason I made this mod is that I couldn't find any mods on fabric 1.21 for autotipping, so I made one myself.
-
-This is my first Minecraft mod so it might not be perfect but it works well in my testing. When you first join Hypixel just press `NumPad1` (rebindable in Minecraft's keybinds settings) and it will start autotipping players. You can then press `NumPad1` again and it will stop autotipping.
-
-Starting from v1.1.0, with Cloth Config API and ModMenu installed a config screen can be accessed to toggle the mod and the interval which the mod will tip all players.
+When you first join Hypixel just press `NumPad1` (rebindable in Minecraft's keybinds settings) and it will start autotipping players. You can then press `NumPad1` again and it will stop autotipping.
 
 ## Installation
 Avaliable at modrinth at: [https://modrinth.com/mod/hypixelautotip](https://modrinth.com/mod/hypixelautotip)
+
+## Dependencies
+- [fabric-api](https://modrinth.com/mod/fabric-api) (required)
+- [modmenu](https://modrinth.com/mod/modmenu) (optional, required for accessing configs)
+- [cloth-config](https://modrinth.com/mod/cloth-config) (optional, required for config screen)
 
 ## Features
 - Auto tipping all every 15 minutes
