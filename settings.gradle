@@ -4,7 +4,27 @@ pluginManagement {
 			name = 'Fabric'
 			url = 'https://maven.fabricmc.net/'
 		}
+		maven {
+			name = 'KikuGie'
+			url = 'https://maven.kikugie.dev/releases'
+		}
 		mavenCentral()
 		gradlePluginPortal()
+	}
+}
+
+plugins {
+	id 'dev.kikugie.stonecutter' version '0.9.7'
+}
+
+rootProject.name = 'hypixelautotip'
+
+stonecutter {
+	kotlinController = false
+	centralScript = 'build.gradle'
+
+	create(getRootProject()) {
+		versions '26.1', '26.2'
+		vcsVersion = '26.2'
 	}
 }

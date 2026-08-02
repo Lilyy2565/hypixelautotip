@@ -85,10 +85,13 @@ public class HypixelAutoTipClient implements ClientModInitializer {
             // Check if the toggle key was pressed.
             while (toggleKeyBinding.consumeClick()) {
                 commandExecutionEnabled = !commandExecutionEnabled;
-                Minecraft.getInstance().gui.setOverlayMessage(
-                    Component.literal("AutoTip toggled: " + (commandExecutionEnabled ? "Enabled" : "Disabled")),
-                    true // 'true' makes it display in the action bar
-                );
+                Minecraft.getInstance().gui
+                    //? if >=26.2
+                    .hud
+                    .setOverlayMessage(
+                        Component.literal("AutoTip toggled: " + (commandExecutionEnabled ? "Enabled" : "Disabled")),
+                        true // 'true' makes it display in the action bar
+                    );
 
                 if (ConfigManager.config.persistAutoTipEnabled) {
                     ConfigManager.config.autoTipEnabled = commandExecutionEnabled;
