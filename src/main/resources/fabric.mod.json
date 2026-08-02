@@ -24,7 +24,6 @@
 		]
 	},
 	"mixins": [
-		"hypixelautotip.mixins.json",
 		{
 			"config": "hypixelautotip.client.mixins.json",
 			"environment": "client"
