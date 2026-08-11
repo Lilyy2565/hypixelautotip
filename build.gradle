@@ -3,7 +3,7 @@ plugins {
 	id 'maven-publish'
 }
 
-version = project.mod_version
+version = "${project.mod_version}+${stonecutter.current.version}"
 group = project.maven_group
 
 base {
@@ -40,16 +40,18 @@ dependencies {
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 	
 	// Configs
-	implementation "me.shedaniel.cloth:cloth-config-fabric:26.1.154"
-    implementation "com.terraformersmc:modmenu:20.0.0-alpha.1"
+	implementation "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
+    implementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 }
 
 
 processResources {
 	inputs.property "version", project.version
+	inputs.property "minecraft_version", project.minecraft_version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": inputs.properties.version
+		expand "version": inputs.properties.version,
+			"minecraft_version": inputs.properties.minecraft_version
 	}
 }
 
