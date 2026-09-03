@@ -1,4 +1,8 @@
 # Hypixel AutoTip
+> [!WARNING]
+> I have noticed a few sites re-uploading this mod which is permitted via the license however I cannot vouch for the safety of these services and I did not upload them (despite them making it look like I did), the only legitimate places that I have uploaded this mod are the [Modrinth](https://modrinth.com/mod/hypixelautotip/) page and the [GitHub](https://github.com/Lilyy2565/hypixelautotip).
+> Please stay safe downloading files online!
+
 > [!NOTE]
 > All releases from v1.1.3 and below have been removed for download on both GitHub releases and Modrinth to prevent confusion.
 > Mod compatability will remain the same as v1.1.3 supports from Minecraft version 1.21-1.21.8.
