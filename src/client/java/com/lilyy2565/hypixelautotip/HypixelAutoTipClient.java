@@ -41,7 +41,11 @@ public class HypixelAutoTipClient implements ClientModInitializer {
         // Register the mod toggle key binding.
         toggleKeyBinding = KeyMappingHelper.registerKeyMapping(new KeyMapping(
             "Toggle AutoTip",
-            InputConstants.Type.KEYSYM,
+            //? if >=26.3 {
+            InputConstants.Type.KEYBOARD,
+            //?} else
+            //InputConstants.Type.KEYSYM,
+
             InputConstants.KEY_NUMPAD1,
             KeyMapping.Category.MISC
         ));
