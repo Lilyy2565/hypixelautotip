@@ -9,4 +9,7 @@ public class HypixelAutoTipConfig {
 
     // Last saved state of the Enable AutoTip toggle
     public boolean autoTipEnabled = true;
+
+    // Track rewards
+    public boolean trackRewards = true;
 }

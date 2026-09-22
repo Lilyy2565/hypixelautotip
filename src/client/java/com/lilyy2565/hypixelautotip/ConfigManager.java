@@ -20,12 +20,12 @@ public class ConfigManager {
         if (CONFIG_FILE.exists()) {
             try (FileReader reader = new FileReader(CONFIG_FILE)) {
                 config = GSON.fromJson(reader, HypixelAutoTipConfig.class);
-                System.out.println("Config loaded: " + config.intervalTicks);
+                System.out.println("[Hypixel AutoTip] Config loaded: " + config.intervalTicks);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("No config file found. Saving default config.");
+            System.out.println("[Hypixel AutoTip] No config file found. Saving default config.");
             saveConfig();
         }
     }
@@ -33,7 +33,7 @@ public class ConfigManager {
     public static void saveConfig() {
         try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
             GSON.toJson(config, writer);
-            System.out.println("Config saved: " + config.intervalTicks);
+            System.out.println("[Hypixel AutoTip] Config saved: " + config.intervalTicks);
         } catch (IOException e) {
             e.printStackTrace();
         }

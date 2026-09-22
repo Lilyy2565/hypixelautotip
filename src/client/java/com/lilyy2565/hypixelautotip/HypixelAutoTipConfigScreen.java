@@ -56,7 +56,16 @@ public class HypixelAutoTipConfigScreen implements ModMenuApi {
                     .build()
             );
 
-            // Additional entries can be added here.
+            // Track Rewards gained from AutoTip
+            general.addEntry(
+                entryBuilder.startBooleanToggle(Component.literal("Track Rewards gained from AutoTip"),
+                        ConfigManager.config.trackRewards)
+                    .setDefaultValue(true)
+                    .setTooltip(Component.literal("When enabled, the rewards gained from AutoTip are tracked."))
+                    .setSaveConsumer(newValue -> ConfigManager.config.trackRewards = newValue)
+                    .build()
+            );
+
             builder.setSavingRunnable(() -> {
                 ConfigManager.config.autoTipEnabled = HypixelAutoTipClient.commandExecutionEnabled;
                 ConfigManager.saveConfig();
@@ -65,7 +74,6 @@ public class HypixelAutoTipConfigScreen implements ModMenuApi {
         };
     }
 
-    // Optional helper method to open the config screen directly
     public static Screen createConfigScreen(Screen parent) {
         return new HypixelAutoTipConfigScreen().getModConfigScreenFactory().create(parent);
     }
