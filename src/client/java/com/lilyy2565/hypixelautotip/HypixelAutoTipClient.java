@@ -315,7 +315,7 @@ public class HypixelAutoTipClient implements ClientModInitializer {
         Pattern tipPattern = Pattern.compile("You tipped (\\d+) players in (\\d+) different games!");
         Matcher tipMatcher = tipPattern.matcher(text);
 
-        if (tipMatcher.matches()) {
+        if (tipMatcher.find()) {
             stats.totalPlayersTipped += Long.parseLong(tipMatcher.group(1));
             stats.totalGamesTipped += Long.parseLong(tipMatcher.group(2));
         }
