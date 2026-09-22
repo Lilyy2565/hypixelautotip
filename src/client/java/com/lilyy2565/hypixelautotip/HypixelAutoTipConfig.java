@@ -12,4 +12,7 @@ public class HypixelAutoTipConfig {
 
     // Track rewards
     public boolean trackRewards = true;
+
+    // [AT] prefix color for autotip messages
+    public ChatColor autoTipPrefixColor = ChatColor.LIGHT_PURPLE;
 }

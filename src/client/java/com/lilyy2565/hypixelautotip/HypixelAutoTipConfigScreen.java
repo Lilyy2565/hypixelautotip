@@ -6,6 +6,7 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import java.util.Arrays;
 
 public class HypixelAutoTipConfigScreen implements ModMenuApi {
 
@@ -63,6 +64,18 @@ public class HypixelAutoTipConfigScreen implements ModMenuApi {
                     .setDefaultValue(true)
                     .setTooltip(Component.literal("When enabled, the rewards gained from AutoTip are tracked."))
                     .setSaveConsumer(newValue -> ConfigManager.config.trackRewards = newValue)
+                    .build()
+            );
+
+            // AutoTip prefix color
+            general.addEntry(
+                entryBuilder.startDropdownMenu(Component.literal("AutoTip Prefix Color"),
+                        ConfigManager.config.autoTipPrefixColor, ChatColor::fromName,
+                        value -> Component.literal(value.toString()))
+                    .setDefaultValue(ChatColor.LIGHT_PURPLE)
+                    .setSelections(Arrays.asList(ChatColor.values()))
+                    .setTooltip(Component.literal("The color of the [AT] prefix in autotip messages."))
+                    .setSaveConsumer(newValue -> ConfigManager.config.autoTipPrefixColor = newValue)
                     .build()
             );
 

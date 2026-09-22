@@ -196,15 +196,15 @@ public class HypixelAutoTipClient implements ClientModInitializer {
     private static LiteralArgumentBuilder<FabricClientCommandSource> createCommand(String name) {
         return ClientCommands.literal(name)
             .then(ClientCommands.literal("status").executes(context -> {  // Status command
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §rHypixel AutoTip is currently §" + (commandExecutionEnabled ? "aenabled" : "cdisabled") + "§r."));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rHypixel AutoTip is currently §" + (commandExecutionEnabled ? "aenabled" : "cdisabled") + "§r."));
                 if(isOnHypixel && commandExecutionEnabled){
                     int secondsRemaining = (INTERVAL_TICKS - tickCounter) / 20;
                     int minutesRemaining = secondsRemaining / 60;
                     int secsRemaining = secondsRemaining % 60;
-                    context.getSource().sendFeedback(Component.literal("§d§l[AT] §rNext tip in: §e" + minutesRemaining + "m " + secsRemaining + "s§r."));
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rNext tip in: §e" + minutesRemaining + "m " + secsRemaining + "s§r."));
                 }
                 if(!isOnHypixel){
-                    context.getSource().sendFeedback(Component.literal("§d§l[AT] §eThe current server is not detected as Hypixel.\n§eAutoTip will not run, if this is a mistake, please make a ")
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §eThe current server is not detected as Hypixel.\n§eAutoTip will not run, if this is a mistake, please make a ")
                         .append(Component.literal("§b§nbug report").withStyle(style -> style
                             .withClickEvent(new net.minecraft.network.chat.ClickEvent.OpenUrl(URI.create("https://github.com/Lilyy2565/HypixelAutoTip/issues")))
                         .withHoverEvent(new net.minecraft.network.chat.HoverEvent.ShowText(Component.literal("§ehttps://github.com/Lilyy2565/HypixelAutoTip/issues"))))
@@ -213,7 +213,7 @@ public class HypixelAutoTipClient implements ClientModInitializer {
                 return 1;
             }))
             .then(ClientCommands.literal("config").executes(context -> {  // Config command
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §rOpening config screen..."));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rOpening config screen..."));
                 Minecraft client = context.getSource().getClient();
                 //? if >=26.2 {
                 client.execute(() -> client.gui.setScreen(HypixelAutoTipConfigScreen.createConfigScreen(client.gui.screen())));
@@ -224,50 +224,50 @@ public class HypixelAutoTipClient implements ClientModInitializer {
             }))
             .then(ClientCommands.literal("info").executes(context -> {  // Mod info command
                 String version = FabricLoader.getInstance().getModContainer("hypixelautotip").map(container -> container.getMetadata().getVersion().getFriendlyString()).orElse("unknown");
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §rHypixel AutoTip v" + version + " by §5§oLilyy2565§r."));
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §b§nLink to Project's Github")
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rHypixel AutoTip v" + version + " by §5§oLilyy2565§r."));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §b§nLink to Project's Github")
                     .withStyle(style -> style.withClickEvent(new net.minecraft.network.chat.ClickEvent.OpenUrl(URI.create("https://github.com/Lilyy2565/HypixelAutoTip")))
                     .withHoverEvent(new net.minecraft.network.chat.HoverEvent.ShowText(Component.literal("§ehttps://github.com/Lilyy2565/HypixelAutoTip")))));
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §b§nLink to Project's Modrinth Page")
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §b§nLink to Project's Modrinth Page")
                     .withStyle(style -> style.withClickEvent(new net.minecraft.network.chat.ClickEvent.OpenUrl(URI.create("https://modrinth.com/mod/hypixelautotip")))
                     .withHoverEvent(new net.minecraft.network.chat.HoverEvent.ShowText(Component.literal("§ehttps://modrinth.com/mod/hypixelautotip")))));
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §b§nLink to Project's CurseForge Page")
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §b§nLink to Project's CurseForge Page")
                     .withStyle(style -> style.withClickEvent(new net.minecraft.network.chat.ClickEvent.OpenUrl(URI.create("https://www.curseforge.com/minecraft/mc-mods/hypixel-auto-tip")))
                     .withHoverEvent(new net.minecraft.network.chat.HoverEvent.ShowText(Component.literal("§ehttps://www.curseforge.com/minecraft/mc-mods/hypixel-auto-tip")))));
                 return 1;
             }))
             .then(ClientCommands.literal("stats").executes(context -> {  // Stats command
                 TipStats stats = TipStatsManager.stats;
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §r§nHypixel AutoTip Statistics:"));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §r§nHypixel AutoTip Statistics:"));
                 if(!ConfigManager.config.trackRewards){ // Warn about tracking being disabled in the config
-                    context.getSource().sendFeedback(Component.literal("§d§l[AT] §eWARNING: Tracking rewards is disabled in the config!"));
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §eWARNING: Tracking rewards is disabled in the config!"));
                 }
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §rTotal Tips: §e" + stats.totalTips));
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §rTotal Players Tipped: §e" + stats.totalPlayersTipped));
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §rTotal Games Tipped: §e" + stats.totalGamesTipped));
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §rTotal Hypixel Experience: §e" + stats.totalHypixelExperience));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Tips: §e" + stats.totalTips));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Players Tipped: §e" + stats.totalPlayersTipped));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Games Tipped: §e" + stats.totalGamesTipped));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Hypixel Experience: §e" + stats.totalHypixelExperience));
                 if (!stats.totalRewards.isEmpty()) {
-                    context.getSource().sendFeedback(Component.literal("§d§l[AT] §rTotal Rewards:"));
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Rewards:"));
                     for (Map.Entry<String, Long> entry : stats.totalRewards.entrySet()) {
-                        context.getSource().sendFeedback(Component.literal("§d§l[AT] §r - " + entry.getKey() + ": §e" + entry.getValue()));
+                        context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §r - " + entry.getKey() + ": §e" + entry.getValue()));
                     }
                 }
                 else{
-                    context.getSource().sendFeedback(Component.literal("§d§l[AT] §cNo rewards have been received yet."));
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §cNo rewards have been received yet."));
                 }
                 return 1;
             }))
             .then(ClientCommands.literal("reload").executes(context -> {  // Reload configs command
                 ConfigManager.loadConfig();
                 TipStatsManager.load();
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §aReloaded Hypixel AutoTip!"));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §aReloaded Hypixel AutoTip!"));
                 return 1;
             }))
             .then(ClientCommands.literal("resetstats").executes(context -> {  // Reset stats command
                 resetStatsConfirmationPending = true;
                 resetStatsConfirmationTime = System.currentTimeMillis();
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §eWARNING: This will reset all your Hypixel AutoTip statistics!"));
-                context.getSource().sendFeedback(Component.literal("§d§l[AT] §eRun §5§o/at resetstats confirm §eto confirm the reset."));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §eWARNING: This will reset all your Hypixel AutoTip statistics!"));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §eRun §5§o/at resetstats confirm §eto confirm the reset."));
                 return 1;
             }).then(ClientCommands.literal("confirm").executes(context -> {  // Confirm reset stats command
                 if (resetStatsConfirmationPending) {
@@ -275,7 +275,7 @@ public class HypixelAutoTipClient implements ClientModInitializer {
                         resetStatsConfirmationPending = false;
                         resetStatsConfirmationTime = 0;
                         context.getSource().sendFeedback(
-                                Component.literal("§d§l[AT] §cThe reset confirmation has expired.")
+                                Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §cThe reset confirmation has expired.")
                         );
                         return 1;
                     }
@@ -284,9 +284,9 @@ public class HypixelAutoTipClient implements ClientModInitializer {
                     TipStatsManager.save();
                     resetStatsConfirmationPending = false;
                     resetStatsConfirmationTime = 0;
-                    context.getSource().sendFeedback(Component.literal("§d§l[AT] §aAll Hypixel AutoTip statistics have been reset."));
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §aAll Hypixel AutoTip statistics have been reset."));
                 } else {
-                    context.getSource().sendFeedback(Component.literal("§d§l[AT] §cThere is no pending reset confirmation."));
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §cThere is no pending reset confirmation."));
                 }
                 return 1;
             })));
