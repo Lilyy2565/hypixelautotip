@@ -300,7 +300,7 @@ public class HypixelAutoTipClient implements ClientModInitializer {
         
         String text = message.getString();
 
-        if (!text.startsWith("You tipped ")) {
+        if (!text.startsWith("§aYou tipped ")) {
             return;
         }
 
