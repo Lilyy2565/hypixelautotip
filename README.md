@@ -1,4 +1,6 @@
 # Hypixel AutoTip
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Lilyy2565/hypixelautotip/gradle.yml?style=plastic)
+
 > [!WARNING]
 > I have noticed a few sites re-uploading this mod which is permitted via the license however I cannot vouch for the safety of these services and I did not upload them (despite them making it look like I did), the only legitimate places that I have uploaded this mod are the [Modrinth](https://modrinth.com/mod/hypixelautotip/) page, [Curseforge](https://www.curseforge.com/minecraft/mc-mods/hypixel-auto-tip) page and the [GitHub](https://github.com/Lilyy2565/hypixelautotip).
 > Please stay safe downloading files online!
@@ -12,7 +14,8 @@ Automatically tips all players with active boosters on the Hypixel Network aroun
 When you first join Hypixel just press `NumPad1` (rebindable in Minecraft's keybinds settings) and it will start autotipping players. You can then press `NumPad1` again and it will stop autotipping.
 
 ## Installation
-Avaliable at modrinth at: [https://modrinth.com/mod/hypixelautotip](https://modrinth.com/mod/hypixelautotip)
+- Avaliable at modrinth at: [https://modrinth.com/mod/hypixelautotip](https://modrinth.com/mod/hypixelautotip)
+- Development builds are available on [Github Actions](https://github.com/Lilyy2565/hypixelautotip/actions/workflows/gradle.yml).
 
 ## Dependencies
 - [fabric-api](https://modrinth.com/mod/fabric-api) (required)
