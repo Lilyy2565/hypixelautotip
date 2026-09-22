@@ -9,6 +9,12 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.chat.Component;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommands;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.fabricmc.loader.api.FabricLoader;
+import java.net.URI;
 
 
 public class HypixelAutoTipClient implements ClientModInitializer {
@@ -49,6 +55,12 @@ public class HypixelAutoTipClient implements ClientModInitializer {
             InputConstants.KEY_NUMPAD1,
             KeyMapping.Category.MISC
         ));
+
+        // Command registration for the /autotip command.
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+            dispatcher.register(createCommand("autotip"));
+            dispatcher.register(createCommand("at"));
+        });
 
         // DEBUG Keybinds
         /*KeyBinding configKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -163,4 +175,36 @@ public class HypixelAutoTipClient implements ClientModInitializer {
         
         return info;
     }
+
+    private static LiteralArgumentBuilder<FabricClientCommandSource> createCommand(String name) {
+        return ClientCommands.literal(name)
+            .then(ClientCommands.literal("status").executes(context -> {
+                context.getSource().sendFeedback(Component.literal("§d§l[AT] §rHypixel AutoTip is currently §" + (commandExecutionEnabled ? "aenabled" : "cdisabled") + "§r."));
+                return 1;
+            }))
+            .then(ClientCommands.literal("config").executes(context -> {
+                context.getSource().sendFeedback(Component.literal("§d§l[AT] §rOpening config screen..."));
+                Minecraft client = context.getSource().getClient();
+                //? if >=26.2 {
+                client.execute(() -> client.gui.setScreen(HypixelAutoTipConfigScreen.createConfigScreen(client.gui.screen())));
+                //? } else {
+                //client.execute(() -> client.setScreen(HypixelAutoTipConfigScreen.createConfigScreen(client.screen)));
+                //? }
+                return 1;
+            }))
+            .then(ClientCommands.literal("info").executes(context -> {
+                String version = FabricLoader.getInstance().getModContainer("hypixelautotip").map(container -> container.getMetadata().getVersion().getFriendlyString()).orElse("unknown");
+                context.getSource().sendFeedback(Component.literal("§d§l[AT] §rHypixel AutoTip v" + version + " by §5§oLilyy2565§r."));
+                context.getSource().sendFeedback(Component.literal("§d§l[AT] §b§nLink to Project's Github")
+                    .withStyle(style -> style.withClickEvent(new net.minecraft.network.chat.ClickEvent.OpenUrl(URI.create("https://github.com/Lilyy2565/HypixelAutoTip")))
+                    .withHoverEvent(new net.minecraft.network.chat.HoverEvent.ShowText(Component.literal("§ehttps://github.com/Lilyy2565/HypixelAutoTip")))));
+                context.getSource().sendFeedback(Component.literal("§d§l[AT] §b§nLink to Project's Modrinth Page")
+                    .withStyle(style -> style.withClickEvent(new net.minecraft.network.chat.ClickEvent.OpenUrl(URI.create("https://modrinth.com/mod/hypixelautotip")))
+                    .withHoverEvent(new net.minecraft.network.chat.HoverEvent.ShowText(Component.literal("§ehttps://modrinth.com/mod/hypixelautotip")))));
+                context.getSource().sendFeedback(Component.literal("§d§l[AT] §b§nLink to Project's CurseForge Page")
+                    .withStyle(style -> style.withClickEvent(new net.minecraft.network.chat.ClickEvent.OpenUrl(URI.create("https://www.curseforge.com/minecraft/mc-mods/hypixel-auto-tip")))
+                    .withHoverEvent(new net.minecraft.network.chat.HoverEvent.ShowText(Component.literal("§ehttps://www.curseforge.com/minecraft/mc-mods/hypixel-auto-tip")))));
+                return 1;
+            }));
+    };
 }
