@@ -10,10 +10,10 @@ public enum ChatColor {
     GOLD("§6", "Gold"),
     GRAY("§7", "Gray"),
     DARK_GRAY("§8", "Dark Gray"),
-    BLUE("§9", "Blue"),
-    GREEN("§a", "Green"),
+    BLUE("§9", "Light Blue"),
+    GREEN("§a", "Light Green"),
     AQUA("§b", "Aqua"),
-    RED("§c", "Red"),
+    RED("§c", "Light Red"),
     LIGHT_PURPLE("§d", "Light Purple"),
     YELLOW("§e", "Yellow"),
     WHITE("§f", "White");
