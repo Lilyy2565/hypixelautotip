@@ -11,7 +11,7 @@
 ## What it does
 Automatically tips all players with active boosters on the Hypixel Network around every 15 minutes using /tipall so you dont have to.
 
-When you first join Hypixel just press `NumPad1` (rebindable in Minecraft's keybinds settings) and it will start autotipping players. You can then press `NumPad1` again and it will stop autotipping.
+Hypixel Autotip will automatically tip all players when you first join the server, and then every 15 minutes after that. You can also press `NumPad1` to toggle autotipping. (Rebindable in the controls).
 
 ## Installation
 - Avaliable at modrinth at: [https://modrinth.com/mod/hypixelautotip](https://modrinth.com/mod/hypixelautotip)
@@ -23,7 +23,10 @@ When you first join Hypixel just press `NumPad1` (rebindable in Minecraft's keyb
 - [cloth-config](https://modrinth.com/mod/cloth-config) (optional, required for config screen)
 
 ## Features
-- Auto tipping all every 15 minutes
-- Disables when not on Hypixel
-- F3 debug text which is compatable with F3+F6
-- Can be disabled via keybind (NumPad 1 by default)
+- Automatically tips all players with active boosters on the Hypixel Network every 15 minutes. (Configurable tip interval)
+- Press NumPad1 to start/stop autotipping. (Rebindable in the controls)
+- Runs in the background while you play.
+- Automatically disables when not on Hypixel.
+- Client-side commands (config, info, stats, status etc)
+- Tipping stats (tips sent, Hypixel EXP gained, coins earned etc)
+- Open source and free to use.
