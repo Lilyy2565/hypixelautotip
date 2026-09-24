@@ -296,6 +296,15 @@ public class HypixelAutoTipClient implements ClientModInitializer {
                 }
                 return 1;
             })))
+            .then(ClientCommands.literal("toggle").executes(context -> {  // Toggle command
+                commandExecutionEnabled = !commandExecutionEnabled; // Toggle the state of tipping
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rAutoTip is now §" + (commandExecutionEnabled ? "aenabled" : "cdisabled") + "§r."));
+                if (ConfigManager.config.persistAutoTipEnabled) { // Persist the toggle state in the config if enabled
+                    ConfigManager.config.autoTipEnabled = commandExecutionEnabled;
+                    ConfigManager.saveConfig();
+                }
+                return 1;
+            }))
             .then(ClientCommands.literal("help").executes(context -> {  // Help command
                 context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §r§nHypixel AutoTip Help:"));
                 context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §2config §7- §rOpens the Hypixel AutoTip config screen."));
@@ -304,6 +313,7 @@ public class HypixelAutoTipClient implements ClientModInitializer {
                 context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §2resetstats §7- §rResets all statistics. Run again with 'confirm' to confirm the reset."));
                 context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §2stats §7- §rDisplays the lifetime tipping statistics."));
                 context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §2status §7- §rDisplays the current status of Hypixel AutoTip and time to next tip."));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §2toggle §7- §rToggles AutoTip on or off."));
                 return 1;
             }));
             
