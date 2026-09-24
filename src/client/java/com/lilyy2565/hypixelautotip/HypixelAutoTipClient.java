@@ -231,6 +231,9 @@ public class HypixelAutoTipClient implements ClientModInitializer {
                 context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §b§nReport a Bug")
                     .withStyle(style -> style.withClickEvent(new net.minecraft.network.chat.ClickEvent.OpenUrl(URI.create("https://github.com/Lilyy2565/HypixelAutoTip/issues/new?template=bug_report.yml")))
                     .withHoverEvent(new net.minecraft.network.chat.HoverEvent.ShowText(Component.literal("§ehttps://github.com/Lilyy2565/HypixelAutoTip/issues/new?template=bug_report.yml")))));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §b§nVisit the Project's Website")
+                    .withStyle(style -> style.withClickEvent(new net.minecraft.network.chat.ClickEvent.OpenUrl(URI.create("https://autotip.lilyy2565.com")))
+                    .withHoverEvent(new net.minecraft.network.chat.HoverEvent.ShowText(Component.literal("§ehttps://autotip.lilyy2565.com")))));
                 context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §b§nLink to Project's Github")
                     .withStyle(style -> style.withClickEvent(new net.minecraft.network.chat.ClickEvent.OpenUrl(URI.create("https://github.com/Lilyy2565/HypixelAutoTip")))
                     .withHoverEvent(new net.minecraft.network.chat.HoverEvent.ShowText(Component.literal("§ehttps://github.com/Lilyy2565/HypixelAutoTip")))));
