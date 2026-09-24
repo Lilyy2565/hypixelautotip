@@ -194,7 +194,10 @@ public class HypixelAutoTipClient implements ClientModInitializer {
     }
 
     private static LiteralArgumentBuilder<FabricClientCommandSource> createCommand(String name) {
-        return ClientCommands.literal(name)
+        return ClientCommands.literal(name).executes(context -> {  // No subcommand supplied
+            context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §cInvalid command. Use §e/at help §cfor a list of commands."));
+            return 1;
+        })
             .then(ClientCommands.literal("status").executes(context -> {  // Status command
                 context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rHypixel AutoTip is currently §" + (commandExecutionEnabled ? "aenabled" : "cdisabled") + "§r."));
                 if(isOnHypixel && commandExecutionEnabled){
@@ -292,7 +295,17 @@ public class HypixelAutoTipClient implements ClientModInitializer {
                     context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §cThere is no pending reset confirmation."));
                 }
                 return 1;
-            })));
+            })))
+            .then(ClientCommands.literal("help").executes(context -> {  // Help command
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §r§nHypixel AutoTip Help:"));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §2config §7- §rOpens the Hypixel AutoTip config screen."));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §2info §7- §rDisplays information about the mod."));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §2reload §7- §rReloads the config and statistics from file."));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §2resetstats §7- §rResets all statistics. Run again with 'confirm' to confirm the reset."));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §2stats §7- §rDisplays the lifetime tipping statistics."));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §2status §7- §rDisplays the current status of Hypixel AutoTip and time to next tip."));
+                return 1;
+            }));
             
     };
 
