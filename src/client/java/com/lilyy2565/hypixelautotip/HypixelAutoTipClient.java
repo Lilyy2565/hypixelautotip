@@ -349,6 +349,8 @@ public class HypixelAutoTipClient implements ClientModInitializer {
             stats.totalGamesTipped += Long.parseLong(tipMatcher.group(2));
         }
 
+        System.out.println("[Hypixel AutoTip] Tipped " + Long.parseLong(tipMatcher.group(1)) + "players in " + Long.parseLong(tipMatcher.group(2)) + " games.");
+
         // Get rewards from the hover text
         if (message.getStyle().getHoverEvent() instanceof HoverEvent.ShowText hover) {
             String rewardText = hover.value().getString();
