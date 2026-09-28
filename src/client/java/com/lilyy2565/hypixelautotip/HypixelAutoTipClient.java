@@ -247,7 +247,7 @@ public class HypixelAutoTipClient implements ClientModInitializer {
             }))
             .then(ClientCommands.literal("stats").executes(context -> {  // Stats command
                 TipStats stats = TipStatsManager.stats;
-                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §r§nHypixel AutoTip Statistics:"));
+                context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §r§nAutoTip Statistics:"));
                 if(!ConfigManager.config.trackRewards){ // Warn about tracking being disabled in the config
                     context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §eWARNING: Tracking rewards is disabled in the config!"));
                 }
@@ -265,7 +265,55 @@ public class HypixelAutoTipClient implements ClientModInitializer {
                     context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §cNo rewards have been received yet."));
                 }
                 return 1;
-            }))
+            }).then(ClientCommands.literal("tips").executes(context -> {
+                    TipStats stats = TipStatsManager.stats;
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §r§nAutoTip Tipping Statistics:"));
+                    if(!ConfigManager.config.trackRewards){ // Warn about tracking being disabled in the config
+                        context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §eWARNING: Tracking rewards is disabled in the config!"));
+                    }
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Tips: §e" + stats.totalTips));
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Players Tipped: §e" + stats.totalPlayersTipped));
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Games Tipped: §e" + stats.totalGamesTipped));
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Hypixel Experience: §e" + stats.totalHypixelExperience));
+                    return 1;
+                }))
+                .then(ClientCommands.literal("rewards").executes(context -> {
+                    TipStats stats = TipStatsManager.stats;
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §r§nAutoTip Reward Statistics:"));
+                    if(!ConfigManager.config.trackRewards){ // Warn about tracking being disabled in the config
+                        context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §eWARNING: Tracking rewards is disabled in the config!"));
+                    }
+                    if (!stats.totalRewards.isEmpty()) {
+                        for (Map.Entry<String, Long> entry : stats.totalRewards.entrySet()) {
+                            context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §r - " + entry.getKey() + ": §e" + entry.getValue()));
+                        }
+                    }
+                    else{
+                        context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §cNo rewards have been received yet."));
+                    }
+                    return 1;
+                }))
+                .then(ClientCommands.literal("all").executes(context -> {
+                    TipStats stats = TipStatsManager.stats;
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §r§nAutoTip Statistics:"));
+                    if(!ConfigManager.config.trackRewards){ // Warn about tracking being disabled in the config
+                        context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §eWARNING: Tracking rewards is disabled in the config!"));
+                    }
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Tips: §e" + stats.totalTips));
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Players Tipped: §e" + stats.totalPlayersTipped));
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Games Tipped: §e" + stats.totalGamesTipped));
+                    context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Hypixel Experience: §e" + stats.totalHypixelExperience));
+                    if (!stats.totalRewards.isEmpty()) {
+                        context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §rTotal Rewards:"));
+                        for (Map.Entry<String, Long> entry : stats.totalRewards.entrySet()) {
+                            context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §r - " + entry.getKey() + ": §e" + entry.getValue()));
+                        }
+                    }
+                    else{
+                        context.getSource().sendFeedback(Component.literal(ConfigManager.config.autoTipPrefixColor.getCode() + "§l[AT] §cNo rewards have been received yet."));
+                    }
+                    return 1;
+                })))
             .then(ClientCommands.literal("reload").executes(context -> {  // Reload configs command
                 ConfigManager.loadConfig();
                 TipStatsManager.load();
