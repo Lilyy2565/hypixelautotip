@@ -389,7 +389,7 @@ public class HypixelAutoTipClient implements ClientModInitializer {
         stats.totalTips++;
 
         // Get players tipped and games tipped
-        Pattern tipPattern = Pattern.compile("You tipped (\\d+) players in (\\d+) different games!");
+        Pattern tipPattern = Pattern.compile("You tipped (\\d+) player(?:s)? in (\\d+)(?: different)? game(?:s)?!");
         Matcher tipMatcher = tipPattern.matcher(text);
 
         if (tipMatcher.find()) {
