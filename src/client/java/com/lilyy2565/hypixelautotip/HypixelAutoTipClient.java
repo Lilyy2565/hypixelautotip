@@ -4,6 +4,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+
+import com.mojang.authlib.Environment;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -375,62 +377,68 @@ public class HypixelAutoTipClient implements ClientModInitializer {
             return; // Dont run if its disabled in the config
         }
         
-        String text = message.getString();
+        try{
+            String text = message.getString();
 
-        if (!text.startsWith("§aYou tipped ")) {
-            return;
-        }
+            if (!text.startsWith("§aYou tipped ")) {
+                return;
+            }
 
-        System.out.println("[Hypixel AutoTip] A successful tip message was detected in chat.");
+            System.out.println("[Hypixel AutoTip] A successful tip message was detected in chat.");
 
-        TipStats stats = TipStatsManager.stats;
+            TipStats stats = TipStatsManager.stats;
 
-        // Count the successful tip
-        stats.totalTips++;
+            // Count the successful tip
+            stats.totalTips++;
 
-        // Get players tipped and games tipped
-        Pattern tipPattern = Pattern.compile("You tipped (\\d+) player(?:s)? in (\\d+)(?: different)? game(?:s)?!");
-        Matcher tipMatcher = tipPattern.matcher(text);
+            // Get players tipped and games tipped
+            Pattern tipPattern = Pattern.compile("You tipped (\\d+) player(?:s)? in (\\d+)(?: different)? game(?:s)?!");
+            Matcher tipMatcher = tipPattern.matcher(text);
 
-        if (tipMatcher.find()) {
-            stats.totalPlayersTipped += Long.parseLong(tipMatcher.group(1));
-            stats.totalGamesTipped += Long.parseLong(tipMatcher.group(2));
-        }
+            if (tipMatcher.find()) {
+                stats.totalPlayersTipped += Long.parseLong(tipMatcher.group(1));
+                stats.totalGamesTipped += Long.parseLong(tipMatcher.group(2));
+            }
 
-        System.out.println("[Hypixel AutoTip] Tipped " + Long.parseLong(tipMatcher.group(1)) + "players in " + Long.parseLong(tipMatcher.group(2)) + " games.");
+            System.out.println("[Hypixel AutoTip] Tipped " + Long.parseLong(tipMatcher.group(1)) + "players in " + Long.parseLong(tipMatcher.group(2)) + " games.");
 
-        // Get rewards from the hover text
-        if (message.getStyle().getHoverEvent() instanceof HoverEvent.ShowText hover) {
-            String rewardText = hover.value().getString();
+            // Get rewards from the hover text
+            if (message.getStyle().getHoverEvent() instanceof HoverEvent.ShowText hover) {
+                String rewardText = hover.value().getString();
 
-            for (String line : rewardText.split("\\R")) {
-                line = line.replaceAll("§.", "").trim();
+                for (String line : rewardText.split("\\R")) {
+                    line = line.replaceAll("§.", "").trim();
 
-                if (line.isEmpty() || line.equals("Rewards")) {
-                    continue;
-                }
+                    if (line.isEmpty() || line.equals("Rewards")) {
+                        continue;
+                    }
 
-                System.out.println("[Hypixel AutoTip] Reward received: " + line);
+                    System.out.println("[Hypixel AutoTip] Reward received: " + line);
 
-                // Hypixel Experience
-                if (line.matches("\\+\\d+ Hypixel Experience")) {
-                    String amountString = line.replaceFirst("^\\+(\\d+) .*", "$1");
-                    long amount = Long.parseLong(amountString);
-                    stats.totalHypixelExperience += amount;
-                    continue;
-                }
+                    // Hypixel Experience
+                    if (line.matches("\\+\\d+ Hypixel Experience")) {
+                        String amountString = line.replaceFirst("^\\+(\\d+) .*", "$1");
+                        long amount = Long.parseLong(amountString);
+                        stats.totalHypixelExperience += amount;
+                        continue;
+                    }
 
-                // Other rewards (coins, tokens, etc.)
-                Matcher rewardMatcher = Pattern.compile("^\\+(\\d+) (.+)$").matcher(line);
+                    // Other rewards (coins, tokens, etc.)
+                    Matcher rewardMatcher = Pattern.compile("^\\+(\\d+) (.+)$").matcher(line);
 
-                if (rewardMatcher.matches()) {
-                    long amount = Long.parseLong(rewardMatcher.group(1));
-                    String rewardName = rewardMatcher.group(2);
-                    stats.totalRewards.merge(rewardName, amount, Long::sum);
+                    if (rewardMatcher.matches()) {
+                        long amount = Long.parseLong(rewardMatcher.group(1));
+                        String rewardName = rewardMatcher.group(2);
+                        stats.totalRewards.merge(rewardName, amount, Long::sum);
+                    }
                 }
             }
-        }
 
-        TipStatsManager.save();
+            TipStatsManager.save();
+        }
+        catch(Exception e){
+            System.err.println("[Hypixel AutoTip] Failed to parse tip rewards: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
